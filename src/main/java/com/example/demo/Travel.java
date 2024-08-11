@@ -78,12 +78,13 @@ public class Travel implements CommandLineRunner {
 
 		var tiket= Ticket.builder()
 				.id(UUID.randomUUID())
-				.price(fly.getPrice().multiply(BigDecimal.TEN))
 				.departureDate(LocalDate.now())
 				.purchaseDate(LocalDate.now())
-				.customer(clinete)
-				.tour(tour)
+				.arrivalDate(LocalDate.now())
+				.price(fly.getPrice().multiply(BigDecimal.TEN))
 				.fly(fly)
+				.tour(tour)
+				.customer(clinete)
 				.build();
 
 		var reservacion= Reservation.builder()
@@ -98,7 +99,16 @@ public class Travel implements CommandLineRunner {
 				.price(hotel.getPrice().multiply(BigDecimal.TEN))
 				.build();
 
-this.tourRepository.save(tour);
+		tour.addReservation(reservacion);
+		tour.updateReservation();
+
+		tour.addTicket(tiket);
+		tour.updateTicket();
+
+      var borrar =this.tourRepository.save(tour);
+
+	  Thread.sleep(8000);
+	  this.tourRepository.deleteById(borrar.getId());
 
 	}
 }

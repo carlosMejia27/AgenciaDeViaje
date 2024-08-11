@@ -51,7 +51,7 @@ public class Customer {
     @EqualsAndHashCode.Exclude
     @OneToMany(
             cascade = CascadeType.ALL, // te borra todo
-            fetch = FetchType.EAGER, // carga los join todos datos completos lazy como una consulta sql noramal
+            fetch = FetchType.LAZY, // carga los join todos datos completos lazy como una consulta sql noramal
             orphanRemoval = true, // si hay uno sin relacion te lo borra
             mappedBy = "customer"
     )
