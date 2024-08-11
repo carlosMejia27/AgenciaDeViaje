@@ -14,33 +14,31 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootApplication
-@Slf4j
-public class Travel implements CommandLineRunner {
-
-	private final HotelRepository hotelRepository;
-	private final FlyRepository  flyRepository;
-	private final TicketRepository ticketRepository;
-	private final ReservacionRepository reservacionRepository;
-	private final TourRepository tourRepository;
-	private final CustomerRepository customerRepository;
-
-	public Travel(HotelRepository hotelRepository, FlyRepository flyRepository,
-				  TicketRepository ticketRepository, ReservacionRepository reservacionRepository,
-				  TourRepository tourRepository, CustomerRepository customerRepository) {
-		this.hotelRepository = hotelRepository;
-		this.flyRepository = flyRepository;
-		this.ticketRepository = ticketRepository;
-		this.reservacionRepository = reservacionRepository;
-		this.tourRepository = tourRepository;
-		this.customerRepository = customerRepository;
-	}
+public class Travel  {
+// implements CommandLineRunner
+//	private final HotelRepository hotelRepository;
+//	private final FlyRepository  flyRepository;
+//	private final TicketRepository ticketRepository;
+//	private final ReservacionRepository reservacionRepository;
+//	private final TourRepository tourRepository;
+//	private final CustomerRepository customerRepository;
+//
+//	public Travel(HotelRepository hotelRepository, FlyRepository flyRepository,
+//				  TicketRepository ticketRepository, ReservacionRepository reservacionRepository,
+//				  TourRepository tourRepository, CustomerRepository customerRepository) {
+//		this.hotelRepository = hotelRepository;
+//		this.flyRepository = flyRepository;
+//		this.ticketRepository = ticketRepository;
+//		this.reservacionRepository = reservacionRepository;
+//		this.tourRepository = tourRepository;
+//		this.customerRepository = customerRepository;
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Travel.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
+
     // var fly=flyRepository.findById(15L).get();
 	// var hotel=hotelRepository.findById(7L).get();
     // var ticket=ticketRepository.findById(UUID.fromString("32345678-1234-5678-4234-567812345678")).get();
@@ -61,54 +59,53 @@ public class Travel implements CommandLineRunner {
 //		hotelRepository.findByPriceLessThan(BigDecimal.valueOf(100)).forEach(System.out::println);
        // hotelRepository.findByPriceIsBetween(BigDecimal.valueOf(10),BigDecimal.valueOf(15)).forEach(System.out::println);
 //hotelRepository.findByRatingGreaterThan(3).forEach(System.out::println);
-		var clinete=customerRepository.findById("VIKI771012HMCRG093").orElseThrow();
-		log.info("*****************"+clinete.getFullName());
+//		var clinete=customerRepository.findById("VIKI771012HMCRG093").orElseThrow();
+//		log.info("*****************"+clinete.getFullName());
+//
+//
+//
+//		var fly=flyRepository.findById(11L).orElseThrow();
+//		log.info("Fly : "+fly.getOriginName()+"  **** "+ fly.getDestinyName());
+//
+//		var hotel=hotelRepository.findById(3L).orElseThrow();
+//
+//		log.info("hotel : "+hotel.getName());
+//
+//		var tour=Tour.builder()
+//				.customer(clinete).build();
+//
+//		var tiket= Ticket.builder()
+//				.id(UUID.randomUUID())
+//				.departureDate(LocalDateTime.now())
+//				.purchaseDate(LocalDateTime.now())
+//				.arrivalDate(LocalDateTime.now())
+//				.price(fly.getPrice().multiply(BigDecimal.TEN))
+//				.fly(fly)
+//				.tour(tour)
+//				.customer(clinete)
+//				.build();
+//
+//		var reservacion= Reservation.builder()
+//				.id(UUID.randomUUID())
+//				.dateReservation(LocalDateTime.now())
+//				.dateEnd((LocalDate.now()).plusDays(2))
+//				.dateStart((LocalDate.now()).plusDays(1))
+//				.hotel(hotel)
+//				.customer(clinete)
+//				.tour(tour)
+//				.totalDays(1)
+//				.price(hotel.getPrice().multiply(BigDecimal.TEN))
+//				.build();
+//
+//		tour.addReservation(reservacion);
+//		tour.updateReservation();
+//
+//		tour.addTicket(tiket);
+//		tour.updateTicket();
+//
+//      var borrar =this.tourRepository.save(tour);
+//
+//	  Thread.sleep(8000);
+//	  this.tourRepository.deleteById(borrar.getId());
 
-
-
-		var fly=flyRepository.findById(11L).orElseThrow();
-		log.info("Fly : "+fly.getOriginName()+"  **** "+ fly.getDestinyName());
-
-		var hotel=hotelRepository.findById(3L).orElseThrow();
-
-		log.info("hotel : "+hotel.getName());
-
-		var tour=Tour.builder()
-				.customer(clinete).build();
-
-		var tiket= Ticket.builder()
-				.id(UUID.randomUUID())
-				.departureDate(LocalDate.now())
-				.purchaseDate(LocalDate.now())
-				.arrivalDate(LocalDate.now())
-				.price(fly.getPrice().multiply(BigDecimal.TEN))
-				.fly(fly)
-				.tour(tour)
-				.customer(clinete)
-				.build();
-
-		var reservacion= Reservation.builder()
-				.id(UUID.randomUUID())
-				.dateReservation(LocalDateTime.now())
-				.dateEnd((LocalDate.now()).plusDays(2))
-				.dateStart((LocalDate.now()).plusDays(1))
-				.hotel(hotel)
-				.customer(clinete)
-				.tour(tour)
-				.totalDays(1)
-				.price(hotel.getPrice().multiply(BigDecimal.TEN))
-				.build();
-
-		tour.addReservation(reservacion);
-		tour.updateReservation();
-
-		tour.addTicket(tiket);
-		tour.updateTicket();
-
-      var borrar =this.tourRepository.save(tour);
-
-	  Thread.sleep(8000);
-	  this.tourRepository.deleteById(borrar.getId());
-
-	}
 }

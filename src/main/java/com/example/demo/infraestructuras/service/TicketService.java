@@ -1,0 +1,100 @@
+package com.example.demo.infraestructuras.service;
+
+import com.example.demo.api.models.request.Ticketrequest;
+import com.example.demo.api.models.response.FlyResponse;
+import com.example.demo.api.models.response.TicketResponde;
+import com.example.demo.dominan.entity.Ticket;
+import com.example.demo.dominan.repository.CustomerRepository;
+import com.example.demo.dominan.repository.FlyRepository;
+import com.example.demo.dominan.repository.TicketRepository;
+import com.example.demo.infraestructuras.abstract_service.IticketService;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Transactional
+@Service
+@Slf4j
+@AllArgsConstructor
+public class TicketService implements IticketService {
+
+    private final FlyRepository flyRepository;
+    private final CustomerRepository customerRepository;
+    private final TicketRepository ticketRepository;
+
+
+    @Override
+    public TicketResponde create(Ticketrequest request) {
+        var fly = flyRepository.findById(request.getIdFly()).orElseThrow();
+        log.info("fly********************** saved with id: {}", fly.getId());
+
+        var customer = customerRepository.findById(request.getIdClient()).orElseThrow();
+        log.info("customer***************** saved with id: {}", customer.getDni());
+
+        var ticketPersist = Ticket.builder()
+                .id(UUID.randomUUID())
+                .fly(fly)
+                .customer(customer)
+                .price(fly.getPrice().multiply(BigDecimal.valueOf(0.25)))
+                .purchaseDate(LocalDate.now())
+                .arrivalDate(LocalDateTime.now())
+                .departureDate(LocalDateTime.now())
+                .build();
+
+        var ticketPersisted = this.ticketRepository.save(ticketPersist);
+
+        log.info("ticket************************ saved with id: {}", ticketPersisted.getId());
+        return entityToResponse(ticketPersisted);
+    }
+
+    @Override
+    public TicketResponde read(UUID id) {
+        var ticketFromBD=this.ticketRepository.findById(id).orElseThrow();
+        return this.entityToResponse(ticketFromBD);
+    }
+
+    @Override
+    public TicketResponde update(Ticketrequest request, UUID id) {
+        var ticketUpdate=ticketRepository.findById(id).orElseThrow();
+        var fly = flyRepository.findById(request.getIdFly()).orElseThrow();
+
+        ticketUpdate.setFly(fly);
+        ticketUpdate.setPrice(BigDecimal.valueOf(0.25));
+        ticketUpdate.setDepartureDate((LocalDateTime.now()));
+        ticketUpdate.setArrivalDate((LocalDateTime.now()));
+
+        var ticketUpdated=this.ticketRepository.save(ticketUpdate);
+        log.info("ticket************************ update with id: {}", ticketUpdated.getId());
+
+        return this.entityToResponse(ticketUpdated);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        var ticketTodelete=ticketRepository.findById(id).orElseThrow();
+        this.ticketRepository.delete(ticketTodelete);
+
+
+    }
+
+    private TicketResponde entityToResponse(Ticket ticketEntity) {
+        var response = new TicketResponde();
+//       response.setId(ticketEntity.getId()); por eso pongo la libreria BeanUtils me hace lo mismo mactchea todo igual
+        BeanUtils.copyProperties(ticketEntity, response);
+        log.info("TicketResponde****************************************** saved with id: {}", response);
+
+        var flyResponse = new FlyResponse();
+        BeanUtils.copyProperties(ticketEntity.getFly(), flyResponse);
+
+        response.setFly(flyResponse);
+        return response;
+    }
+}

@@ -1,6 +1,5 @@
-package com.example.demo.dominan.entity;
+package com.example.demo.api.models.response;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,31 +10,18 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Ticket {
+public class TicketResponde {
 
-    @Id
     private UUID id;
 
     private LocalDateTime departureDate;
     private LocalDateTime arrivalDate;
     private LocalDate purchaseDate;
     private BigDecimal price;
-
-    @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name="fly_id")
-    private Fly fly;
-
-    @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name="tour_id",nullable = true)
-    private Tour tour;
-
-    @ManyToOne( fetch = FetchType.LAZY)
-    @JoinColumn(name="customer_id")
-    private Customer customer;
+    private FlyResponse fly;
 
 }
