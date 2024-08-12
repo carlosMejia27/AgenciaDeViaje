@@ -8,6 +8,7 @@ import com.example.demo.dominan.repository.CustomerRepository;
 import com.example.demo.dominan.repository.FlyRepository;
 import com.example.demo.dominan.repository.TicketRepository;
 import com.example.demo.infraestructuras.abstract_service.IticketService;
+import com.example.demo.util.Best_Travel_Util;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +44,10 @@ public class TicketService implements IticketService {
                 .id(UUID.randomUUID())
                 .fly(fly)
                 .customer(customer)
-                .price(fly.getPrice().multiply(BigDecimal.valueOf(0.25)))
+                .price(fly.getPrice().add(fly.getPrice().multiply(charge_price_percentage)))
                 .purchaseDate(LocalDate.now())
-                .arrivalDate(LocalDateTime.now())
-                .departureDate(LocalDateTime.now())
+                .arrivalDate(Best_Travel_Util.getRandomLater())
+                .departureDate(Best_Travel_Util.getRandomSoon())
                 .build();
 
         var ticketPersisted = this.ticketRepository.save(ticketPersist);
@@ -67,9 +68,9 @@ public class TicketService implements IticketService {
         var fly = flyRepository.findById(request.getIdFly()).orElseThrow();
 
         ticketUpdate.setFly(fly);
-        ticketUpdate.setPrice(BigDecimal.valueOf(0.25));
-        ticketUpdate.setDepartureDate((LocalDateTime.now()));
-        ticketUpdate.setArrivalDate((LocalDateTime.now()));
+        ticketUpdate.setPrice(fly.getPrice().add(fly.getPrice().multiply(charge_price_percentage)));
+        ticketUpdate.setDepartureDate(Best_Travel_Util.getRandomSoon());
+        ticketUpdate.setArrivalDate((Best_Travel_Util.getRandomLater()));
 
         var ticketUpdated=this.ticketRepository.save(ticketUpdate);
         log.info("ticket************************ update with id: {}", ticketUpdated.getId());
@@ -97,4 +98,11 @@ public class TicketService implements IticketService {
         response.setFly(flyResponse);
         return response;
     }
+
+    @Override
+    public BigDecimal findPrice(Long flyId) {
+        var fly=this.flyRepository.findById(flyId).orElseThrow();
+        return fly.getPrice().add(fly.getPrice().multiply(charge_price_percentage));
+    }
+    public static final  BigDecimal charge_price_percentage=BigDecimal.valueOf(0.25);
 }

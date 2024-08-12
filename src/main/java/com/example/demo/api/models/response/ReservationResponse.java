@@ -1,6 +1,5 @@
 package com.example.demo.api.models.response;
 
-import com.example.demo.dominan.entity.Hotel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class ReservacionResponde {
+public class ReservationResponse {
     private UUID id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateReservation;

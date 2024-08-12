@@ -42,39 +42,53 @@ public class Tour {
     @JoinColumn(name="id_customer")
     private Customer customer;
 
-    public void addTicket( Ticket ticket){
-        if(Objects.isNull(this.tickets)) this.tickets=new HashSet<>();
-        this.tickets.add(ticket);
 
-    }
 
-    public void removeTicket( UUID id){
-        if(Objects.isNull(this.tickets)) this.tickets=new HashSet<>();
-        this.tickets.removeIf(ticket->ticket.getId().equals(id));
-
-    }
-
-    public void updateTicket( ){
+    @PrePersist
+    @PreRemove
+    public void updateFK(){
         this.tickets.forEach(tickets->tickets.setTour(this));
+        this.reservation.forEach(reservation->reservation.setTour(this));
 
     }
 
-    // motodos para seteaar Reservation
 
-    public void addReservation( Reservation reservation){
-        if(Objects.isNull(this.reservation)) this.reservation=new HashSet<>();
-        this.reservation.add(reservation);
-
-    }
-
-    public void removeReservation( UUID idReservacion){
-        if(Objects.isNull(this.reservation)) this.reservation=new HashSet<>();
-        this.reservation.removeIf(reservation->reservation.getId().equals(idReservacion));
-
-    }
-
-    public void updateReservation( ){
-        this.reservation.forEach(r->r.setTour(this));
-
-    }
+//
+//    public void addTicket( Ticket ticket){
+//        if(Objects.isNull(this.tickets)) this.tickets=new HashSet<>();
+//        this.tickets.add(ticket);
+//
+//    }
+//
+//
+//
+//    public void removeTicket( UUID id){
+//        if(Objects.isNull(this.tickets)) this.tickets=new HashSet<>();
+//        this.tickets.removeIf(ticket->ticket.getId().equals(id));
+//
+//    }
+//
+//    public void updateTicket( ){
+//        this.tickets.forEach(tickets->tickets.setTour(this));
+//
+//    }
+//
+//    // motodos para seteaar Reservation
+//
+//    public void addReservation( Reservation reservation){
+//        if(Objects.isNull(this.reservation)) this.reservation=new HashSet<>();
+//        this.reservation.add(reservation);
+//
+//    }
+//
+//    public void removeReservation( UUID idReservacion){
+//        if(Objects.isNull(this.reservation)) this.reservation=new HashSet<>();
+//        this.reservation.removeIf(reservation->reservation.getId().equals(idReservacion));
+//
+//    }
+//
+//    public void updateReservation( ){
+//        this.reservation.forEach(r->r.setTour(this));
+//
+//    }
 }

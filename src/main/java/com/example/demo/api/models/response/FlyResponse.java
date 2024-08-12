@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 public class FlyResponse {
 
     private Long id;
-
     private Double originLat ;
     private Double originLng ;
     private Double destinyLng ;
