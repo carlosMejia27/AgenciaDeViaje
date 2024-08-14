@@ -4,7 +4,7 @@ import com.example.demo.api.models.response.HotelResponde;
 import com.example.demo.dominan.entity.Hotel;
 import com.example.demo.dominan.repository.HotelRepository;
 import com.example.demo.infraestructuras.abstract_service.IhotelService;
-import com.example.demo.util.SortType;
+import com.example.demo.util.enunm.SortType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

@@ -4,7 +4,7 @@ import com.example.demo.api.models.response.FlyResponse;
 import com.example.demo.dominan.entity.Fly;
 import com.example.demo.dominan.repository.FlyRepository;
 import com.example.demo.infraestructuras.abstract_service.IFlyService;
-import com.example.demo.util.SortType;
+import com.example.demo.util.enunm.SortType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

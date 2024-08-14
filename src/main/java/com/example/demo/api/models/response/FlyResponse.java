@@ -1,9 +1,6 @@
 package com.example.demo.api.models.response;
 
-import com.example.demo.util.Aerolinia;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.example.demo.util.enunm.Aerolinia;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

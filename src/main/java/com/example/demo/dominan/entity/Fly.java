@@ -1,9 +1,8 @@
 package com.example.demo.dominan.entity;
 
-import com.example.demo.util.Aerolinia;
+import com.example.demo.util.enunm.Aerolinia;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.Length;
 
 import java.math.BigDecimal;
 import java.util.Set;

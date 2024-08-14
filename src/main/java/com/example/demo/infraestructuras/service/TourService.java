@@ -5,8 +5,11 @@ import com.example.demo.api.models.response.TourResponse;
 import com.example.demo.dominan.entity.*;
 import com.example.demo.dominan.repository.*;
 import com.example.demo.infraestructuras.abstract_service.ITourService;
+import com.example.demo.infraestructuras.helpers.BlackListHelpers;
 import com.example.demo.infraestructuras.helpers.CustomerHelper;
 import com.example.demo.infraestructuras.helpers.TourHelper;
+import com.example.demo.util.enunm.Tables;
+import com.example.demo.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,14 +32,20 @@ public class TourService implements ITourService {
     private final CustomerRepository customerRepository;
     private final TourHelper tourHelper;
     private final CustomerHelper customerHelper;
+    private BlackListHelpers blackListHelpers;
+
 
     @Override
     public TourResponse create(TourResquest request) {
-
-        var customer = customerRepository.findById(request.getCustumerId()).orElseThrow();
+        blackListHelpers.isInBlackListCustomer(request.getCustumerId());
+        var customer = customerRepository.findById(request.getCustumerId()).orElseThrow(()-> new IdNotFoundException(Tables.customer.name()));
 
         var flights=new HashSet<Fly>();
-        request.getFlights().forEach(fly->flights.add(this.flyRepository.findById(fly.getId()).orElseThrow()));
+        request.getFlights().forEach(fly->
+                flights.add(this.flyRepository.findById(fly.getId())
+                        .orElseThrow(()-> new IdNotFoundException(Tables.fly.name()))));
+
+
         var hotels=new HashMap<Hotel,Integer>();
         request.getHotels().forEach(hotel->hotels.put(this.hotelRepository.findById(hotel.getId()).orElseThrow(),hotel.getTotalDays()));
         var tourToSave= Tour.builder()
