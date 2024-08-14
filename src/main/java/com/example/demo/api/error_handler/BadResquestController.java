@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.sql.Array;
 import java.util.ArrayList;
 
-@RestControllerAdvice
+
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadResquestController {
 
