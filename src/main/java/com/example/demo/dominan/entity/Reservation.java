@@ -27,15 +27,15 @@ public class Reservation {
     private Integer totalDays;
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name="tour_id",nullable = true)
     private Tour tour;
 
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name="hotel_id")
     private Hotel hotel;
 
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name="customer_id")
     private Customer customer;
 }
