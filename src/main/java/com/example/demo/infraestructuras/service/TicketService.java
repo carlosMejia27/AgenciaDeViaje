@@ -8,6 +8,7 @@ import com.example.demo.dominan.repository.CustomerRepository;
 import com.example.demo.dominan.repository.FlyRepository;
 import com.example.demo.dominan.repository.TicketRepository;
 import com.example.demo.infraestructuras.abstract_service.IticketService;
+import com.example.demo.infraestructuras.helpers.BlackListHelpers;
 import com.example.demo.infraestructuras.helpers.CustomerHelper;
 import com.example.demo.util.Best_Travel_Util;
 import jakarta.persistence.Id;
@@ -32,11 +33,13 @@ public class TicketService implements IticketService {
     private final CustomerRepository customerRepository;
     private final TicketRepository ticketRepository;
     private final CustomerHelper customerHelper;
+    private BlackListHelpers blackListHelpers;
 
 
 
     @Override
     public TicketResponde create(Ticketrequest request) {
+        blackListHelpers.isInBlackListCustomer(request.getIdClient());
         var fly = flyRepository.findById(request.getIdFly()).orElseThrow();
         log.info("fly********************** saved with id: {}", fly.getId());
 

@@ -1,6 +1,6 @@
 package com.example.demo.infraestructuras.abstract_service;
 
-import com.example.demo.util.SortType;
+import com.example.demo.util.enunm.SortType;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;

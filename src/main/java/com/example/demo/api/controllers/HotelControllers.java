@@ -2,7 +2,8 @@ package com.example.demo.api.controllers;
 
 import com.example.demo.api.models.response.HotelResponde;
 import com.example.demo.infraestructuras.abstract_service.IhotelService;
-import com.example.demo.util.SortType;
+import com.example.demo.util.enunm.SortType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/v1")
 @AllArgsConstructor
+@Tag(name ="Hotel")
 public class HotelControllers {
 
     private final IhotelService hotelService;
