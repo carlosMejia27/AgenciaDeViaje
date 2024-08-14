@@ -8,6 +8,7 @@ import com.example.demo.dominan.repository.CustomerRepository;
 import com.example.demo.dominan.repository.FlyRepository;
 import com.example.demo.dominan.repository.TicketRepository;
 import com.example.demo.infraestructuras.abstract_service.IticketService;
+import com.example.demo.infraestructuras.helpers.CustomerHelper;
 import com.example.demo.util.Best_Travel_Util;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,8 @@ public class TicketService implements IticketService {
     private final FlyRepository flyRepository;
     private final CustomerRepository customerRepository;
     private final TicketRepository ticketRepository;
+    private final CustomerHelper customerHelper;
+
 
 
     @Override
@@ -51,8 +54,8 @@ public class TicketService implements IticketService {
                 .build();
 
         var ticketPersisted = this.ticketRepository.save(ticketPersist);
-
-        log.info("ticket************************ saved with id: {}", ticketPersisted.getId());
+        this.customerHelper.incrase(customer.getDni(),TicketService.class);
+        log.info("ticket************************ saved with id: {}", ticketPersisted.getId());//ME SALE EL LOG SYSTEM OUT
         return entityToResponse(ticketPersisted);
     }
 

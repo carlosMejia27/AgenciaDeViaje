@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1")
 @AllArgsConstructor
@@ -25,8 +29,40 @@ public class TourController {
     }
 
     @DeleteMapping("/tour/{id}")
-    public ResponseEntity<TourResponse> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         this.tourService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{tourId}/remove_ticket/{ticketiId}")
+    public ResponseEntity<Void> deleteTicket(@PathVariable Long tourId,@PathVariable UUID ticketiId){
+        this.tourService.deleteTicket(tourId,ticketiId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{tourId}/add_ticket/{flyId}")
+    public ResponseEntity<Map<String, UUID>> postTicket(@PathVariable Long tourId, @PathVariable Long flyId ){
+        var response= Collections.singletonMap("ticketId",this.tourService.addTicket(flyId,tourId));
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PatchMapping("/{tourId}/remove_reservation/{ReservationId}")
+    public ResponseEntity<Void> deleteReservation(@PathVariable Long tourId,@PathVariable UUID ReservationId){
+        this.tourService.removeReservation(tourId,ReservationId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{tourId}/add_reservation/{hotelId}")
+    public ResponseEntity<Map<String, UUID>> postTicket(
+            @PathVariable Long tourId,
+            @PathVariable Long hotelId,
+            @RequestParam Integer totalDays
+    ){
+        var response= Collections.singletonMap("ticketId",this.tourService.addReservation(tourId,hotelId,totalDays));
+        return ResponseEntity.ok(response);
+    }
+
+
+
 }

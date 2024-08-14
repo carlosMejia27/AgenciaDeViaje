@@ -1,4 +1,5 @@
 package com.example.demo.infraestructuras.service;
+
 import com.example.demo.api.models.request.ReservationRequest;
 import com.example.demo.api.models.response.HotelResponde;
 import com.example.demo.api.models.response.ReservationResponse;
@@ -7,6 +8,7 @@ import com.example.demo.dominan.repository.CustomerRepository;
 import com.example.demo.dominan.repository.HotelRepository;
 import com.example.demo.dominan.repository.ReservacionRepository;
 import com.example.demo.infraestructuras.abstract_service.IreservationsService;
+import com.example.demo.infraestructuras.helpers.CustomerHelper;
 import com.example.demo.util.Best_Travel_Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,18 +30,16 @@ public class ReservationsService implements IreservationsService {
     private final CustomerRepository customerRepository;
     private final HotelRepository hotelRepository;
     private final ReservacionRepository reservacionRepository;
-    public static final BigDecimal charge_price_percentage=BigDecimal.valueOf(0.20);
+    private final CustomerHelper customerHelper;
 
-
-
-
+    public static final BigDecimal charge_price_percentage = BigDecimal.valueOf(0.20);
 
 
     @Override
     public ReservationResponse create(ReservationRequest request) {
         var customer = customerRepository.findById(request.getIdClient()).orElseThrow();
-        var hotel =hotelRepository.findById(request.getIdHotel()).orElseThrow();
-        var reservation= Reservation.builder()
+        var hotel = hotelRepository.findById(request.getIdHotel()).orElseThrow();
+        var reservation = Reservation.builder()
                 .id(UUID.randomUUID())
                 .dateReservation(Best_Travel_Util.getRandomSoon())
                 .dateStart(LocalDate.now())
@@ -50,22 +50,22 @@ public class ReservationsService implements IreservationsService {
                 .customer(customer)
                 .build();
 
-        var reservationUpdated=this.reservacionRepository.save(reservation);
-log.info("**********reservacion***********",reservation);
+        var reservationUpdated = this.reservacionRepository.save(reservation);
+           this.customerHelper.incrase(customer.getDni(),ReservationsService.class);
         return this.ReservetionToResponse(reservationUpdated);
     }
 
     @Override
     public ReservationResponse read(UUID uuid) {
-        var ReservationFromBD=this.reservacionRepository.findById(uuid).orElseThrow();
+        var ReservationFromBD = this.reservacionRepository.findById(uuid).orElseThrow();
         return this.ReservetionToResponse(ReservationFromBD);
     }
 
     @Override
     public ReservationResponse update(ReservationRequest request, UUID id) {
-        var hotel =hotelRepository.findById(request.getIdHotel()).orElseThrow();
+        var hotel = hotelRepository.findById(request.getIdHotel()).orElseThrow();
 
-        var reservationToUpdate=this.reservacionRepository.findById(id).orElseThrow();
+        var reservationToUpdate = this.reservacionRepository.findById(id).orElseThrow();
         reservationToUpdate.setHotel(hotel);
         reservationToUpdate.setDateReservation(LocalDateTime.now());
         reservationToUpdate.setDateStart(LocalDate.now());
@@ -73,7 +73,7 @@ log.info("**********reservacion***********",reservation);
         reservationToUpdate.setTotalDays(request.getTotalDays());
         reservationToUpdate.setPrice(hotel.getPrice().add(hotel.getPrice().multiply(charge_price_percentage)));
 
-        var reservationUpdated=this.reservacionRepository.save(reservationToUpdate);
+        var reservationUpdated = this.reservacionRepository.save(reservationToUpdate);
 
         return this.ReservetionToResponse(reservationUpdated);
 
@@ -81,11 +81,10 @@ log.info("**********reservacion***********",reservation);
 
     @Override
     public void delete(UUID uuid) {
-        var ReservationTodelete=reservacionRepository.findById(uuid).orElseThrow();
+        var ReservationTodelete = reservacionRepository.findById(uuid).orElseThrow();
         this.reservacionRepository.delete(ReservationTodelete);
 
     }
-
 
 
     private ReservationResponse ReservetionToResponse(Reservation entity) {
@@ -102,7 +101,7 @@ log.info("**********reservacion***********",reservation);
 
     @Override
     public BigDecimal findPrice(Long hotelId) {
-        var hotel=this.hotelRepository.findById(hotelId).orElseThrow();
+        var hotel = this.hotelRepository.findById(hotelId).orElseThrow();
         return hotel.getPrice().add(hotel.getPrice().multiply(charge_price_percentage));
     }
 }

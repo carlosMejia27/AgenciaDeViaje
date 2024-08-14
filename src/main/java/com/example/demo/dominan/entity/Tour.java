@@ -52,6 +52,41 @@ public class Tour {
 
     }
 
+    public void addTicket( Ticket ticket){
+        if(Objects.isNull(this.tickets)) this.tickets=new HashSet<>();
+        this.tickets.add(ticket);
+        this.tickets.forEach(t->t.setTour(this));
+
+    }
+
+
+    public void removeTicket(UUID id){
+           this.tickets.forEach(ticket -> {
+               if (ticket.getId().equals(id)){
+                   ticket.setTour(null);
+               }
+           });
+    }
+
+
+    public void addReservation( Reservation reservation){
+        if(Objects.isNull(this.reservation)) this.reservation=new HashSet<>();
+        this.reservation.add(reservation);
+        this.reservation.forEach(r->r.setTour(this));
+
+    }
+
+    public void removeReservation(UUID id){
+        this.reservation.forEach(reservation -> {
+            if (reservation.getId().equals(id)){
+                reservation.setTour(null);
+            }
+        });
+    }
+
+
+
+
 
 //
 //    public void addTicket( Ticket ticket){
