@@ -4,9 +4,10 @@ import com.example.demo.api.models.request.ReservationRequest;
 import com.example.demo.api.models.response.ReservationResponse;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.UUID;
 
-public interface IreservationsService extends CrudService<ReservationRequest, ReservationResponse, UUID>{
-    BigDecimal findPrice(Long hotelId);
+public interface IreservationsService extends CrudService<ReservationRequest, ReservationResponse, UUID> {
+    BigDecimal findPrice(Long hotelId, Currency currency);
 
 }

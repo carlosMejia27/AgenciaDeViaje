@@ -1,11 +1,10 @@
 package com.example.demo.api.controllers;
 
 import com.example.demo.api.models.request.ReservationRequest;
-import com.example.demo.api.models.request.Ticketrequest;
 import com.example.demo.api.models.response.Errorsresponse;
 import com.example.demo.api.models.response.ReservationResponse;
-import com.example.demo.api.models.response.TicketResponde;
 import com.example.demo.infraestructuras.abstract_service.IreservationsService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,9 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -29,7 +26,7 @@ public class ReservationControllers {
     private final IreservationsService reservationsService;
 
     @ApiResponse(
-            responseCode = "400",
+            responseCode = "700",
             description = "cuando la respuesta es invalida respondemos con esto",
             content = {
                     @Content(mediaType = "application/json",schema = @Schema(implementation= Errorsresponse.class))
@@ -56,9 +53,15 @@ public class ReservationControllers {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "return a reservation price given a hotel id")
     @GetMapping("/reservation")
-    public ResponseEntity<Map<String, BigDecimal>> getFlyPrice(@RequestParam Long id){
-        return ResponseEntity.ok(Collections.singletonMap("ReservacionPrice",this.reservationsService.findPrice(id)));
+    public ResponseEntity<Map<String, BigDecimal>> getReservationPrice(
+            @RequestParam Long hotelId,
+            @RequestParam(required=false) Currency currency){
+        if(Objects.isNull(currency)) currency= Currency.getInstance("USD");
+        return ResponseEntity.ok(Collections.singletonMap("ReservacionPrice",this.reservationsService.findPrice(hotelId,currency)));
     }
+
+
 
 }
