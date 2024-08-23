@@ -64,7 +64,9 @@ public class TicketService implements IticketService {
         var ticketPersisted = this.ticketRepository.save(ticketPersist);
         this.customerHelper.incrase(customer.getDni(),TicketService.class);
         log.info("ticket************************ saved with id: {}", ticketPersisted.getId());//ME SALE EL LOG SYSTEM OUT
-        if(Objects.isNull(request.getEmail())) this.mailHealpers.sendmail(request.getEmail(),customer.getFullName(), Tables.ticket.name());
+        if(Objects.nonNull(request.getEmail())) {
+            this.mailHealpers.sendmail(request.getEmail(),customer.getFullName(), Tables.ticket.name());
+        }
         return entityToResponse(ticketPersisted);
     }
 
