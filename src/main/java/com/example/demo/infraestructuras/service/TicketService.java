@@ -10,7 +10,9 @@ import com.example.demo.dominan.repository.TicketRepository;
 import com.example.demo.infraestructuras.abstract_service.IticketService;
 import com.example.demo.infraestructuras.helpers.BlackListHelpers;
 import com.example.demo.infraestructuras.helpers.CustomerHelper;
+import com.example.demo.infraestructuras.helpers.EmailHealpers;
 import com.example.demo.util.Best_Travel_Util;
+import com.example.demo.util.enunm.Tables;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Transactional
@@ -34,6 +37,8 @@ public class TicketService implements IticketService {
     private final TicketRepository ticketRepository;
     private final CustomerHelper customerHelper;
     private BlackListHelpers blackListHelpers;
+    private final EmailHealpers mailHealpers;
+
 
 
 
@@ -59,6 +64,7 @@ public class TicketService implements IticketService {
         var ticketPersisted = this.ticketRepository.save(ticketPersist);
         this.customerHelper.incrase(customer.getDni(),TicketService.class);
         log.info("ticket************************ saved with id: {}", ticketPersisted.getId());//ME SALE EL LOG SYSTEM OUT
+        if(Objects.isNull(request.getEmail())) this.mailHealpers.sendmail(request.getEmail(),customer.getFullName(), Tables.ticket.name());
         return entityToResponse(ticketPersisted);
     }
 

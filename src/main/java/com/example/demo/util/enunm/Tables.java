@@ -5,6 +5,7 @@ public enum Tables {
     fly,
     hotel,
     reservation,
-    tour
+    tour,
+    ticket
 
 }

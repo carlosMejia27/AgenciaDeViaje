@@ -7,6 +7,7 @@ import com.example.demo.dominan.repository.*;
 import com.example.demo.infraestructuras.abstract_service.ITourService;
 import com.example.demo.infraestructuras.helpers.BlackListHelpers;
 import com.example.demo.infraestructuras.helpers.CustomerHelper;
+import com.example.demo.infraestructuras.helpers.EmailHealpers;
 import com.example.demo.infraestructuras.helpers.TourHelper;
 import com.example.demo.util.enunm.Tables;
 import com.example.demo.util.exceptions.IdNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,7 @@ public class TourService implements ITourService {
     private final TourHelper tourHelper;
     private final CustomerHelper customerHelper;
     private BlackListHelpers blackListHelpers;
+    private final EmailHealpers mailHealpers;
 
 
     @Override
@@ -57,6 +60,8 @@ public class TourService implements ITourService {
         var tourSaved=this.tourRepository.save(tourToSave);
 
         this.customerHelper.incrase(customer.getDni(),TourService.class);
+        if(Objects.isNull(request.getEmail())) this.mailHealpers.sendmail(request.getEmail(),customer.getFullName(), Tables.tour.name());
+
         return TourResponse.builder()
                 .reservationIds(tourToSave.getReservation().stream().map(Reservation::getId).collect(Collectors.toSet()))
                 .ticketIds(tourSaved.getTickets().stream().map(Ticket::getId).collect(Collectors.toSet()))

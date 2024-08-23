@@ -1,5 +1,6 @@
 package com.example.demo.api.models.request;
 
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +21,7 @@ public class TourResquest implements Serializable {
     private Set<TourFlyRequest> flights;
 
     private Set<TourHotelRequest> Hotels;
+
+    @Email(message = "email valido")
+    private String email;
 }

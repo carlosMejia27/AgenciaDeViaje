@@ -11,6 +11,7 @@ import com.example.demo.infraestructuras.abstract_service.IreservationsService;
 import com.example.demo.infraestructuras.helpers.ApiCurrenceConnectorHelper;
 import com.example.demo.infraestructuras.helpers.BlackListHelpers;
 import com.example.demo.infraestructuras.helpers.CustomerHelper;
+import com.example.demo.infraestructuras.helpers.EmailHealpers;
 import com.example.demo.util.Best_Travel_Util;
 import com.example.demo.util.enunm.Tables;
 import com.example.demo.util.exceptions.IdNotFoundException;
@@ -20,10 +21,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Currency;
+import java.util.Objects;
 import java.util.UUID;
 
 @Transactional
@@ -38,8 +41,11 @@ public class ReservationsService implements IreservationsService {
     private final CustomerHelper customerHelper;
     private BlackListHelpers blackListHelpers;
     private final ApiCurrenceConnectorHelper apiCurrenceConnectorHelper;
+    private final EmailHealpers mailHealpers;
 
     public static final BigDecimal charge_price_percentage = BigDecimal.valueOf(0.20);
+
+
 
 
     @Override
@@ -60,6 +66,9 @@ public class ReservationsService implements IreservationsService {
 
         var reservationUpdated = this.reservacionRepository.save(reservation);
         this.customerHelper.incrase(customer.getDni(), ReservationsService.class);
+        if (Objects.nonNull(request.getEmail())) {
+            this.mailHealpers.sendmail(request.getEmail(), customer.getFullName(), Tables.reservation.name());
+        }
         return this.ReservetionToResponse(reservationUpdated);
     }
 
