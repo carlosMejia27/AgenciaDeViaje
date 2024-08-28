@@ -34,7 +34,7 @@ public class HotelControllers {
 
     @GetMapping("/hotel_less_price")
     public ResponseEntity<Set<HotelResponde>> getLessPrice(
-            @RequestParam BigDecimal price){
+            @RequestParam BigDecimal price) throws InterruptedException {
         var response=this.hotelService.readLessPrice(price);
         return response.isEmpty()? ResponseEntity.noContent().build():ResponseEntity.ok(response);
 

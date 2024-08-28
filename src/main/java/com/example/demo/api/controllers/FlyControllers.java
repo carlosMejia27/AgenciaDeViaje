@@ -34,7 +34,7 @@ public class FlyControllers {
 
     @GetMapping("/fly_less_price")
     public ResponseEntity<Set<FlyResponse>> getLessPrice(
-            @RequestParam BigDecimal price){
+            @RequestParam BigDecimal price) throws InterruptedException {
         var response=this.flyService.readLessPrice(price);
         return response.isEmpty()? ResponseEntity.noContent().build():ResponseEntity.ok(response);
 

@@ -4,10 +4,12 @@ import com.example.demo.api.models.response.HotelResponde;
 import com.example.demo.dominan.entity.Hotel;
 import com.example.demo.dominan.repository.HotelRepository;
 import com.example.demo.infraestructuras.abstract_service.IhotelService;
+import com.example.demo.infraestructuras.helpers.CacheConstantes;
 import com.example.demo.util.enunm.SortType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -40,7 +42,14 @@ public class HotelService implements IhotelService {
     }
 
     @Override
-    public Set<HotelResponde> readLessPrice(BigDecimal price) {
+    @Cacheable(value = CacheConstantes.HOTEL_CACHE_NAME)
+    public Set<HotelResponde> readLessPrice(BigDecimal price)  {
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return hotelRepository.findByPriceLessThan(price)
                 .stream()
                 .map(hotelPrecio -> this.entityToResponse(hotelPrecio))
@@ -49,7 +58,15 @@ public class HotelService implements IhotelService {
     }
 
     @Override
+    @Cacheable(value = CacheConstantes.HOTEL_CACHE_NAME)
     public Set<HotelResponde> readBetweenPrices(BigDecimal min, BigDecimal max) {
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         return hotelRepository.findByPriceIsBetween(min,max)
                 .stream()
                 .map(hotelPrecio -> this.entityToResponse(hotelPrecio))
@@ -57,7 +74,15 @@ public class HotelService implements IhotelService {
     }
 
     @Override
+    @Cacheable(value = CacheConstantes.HOTEL_CACHE_NAME)
     public Set<HotelResponde> ReadByReating(Integer raiting) {
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         return hotelRepository.findByRatingGreaterThan(raiting)
                 .stream()
                 .map(hotelPrecio -> this.entityToResponse(hotelPrecio))
