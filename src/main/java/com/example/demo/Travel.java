@@ -1,17 +1,10 @@
 package com.example.demo;
 
-import com.example.demo.dominan.entity.*;
-import com.example.demo.dominan.repository.*;
-import lombok.extern.slf4j.Slf4j;
+import com.example.demo.dominan.repository.mongo.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @SpringBootApplication
 public class Travel  {
@@ -34,12 +27,21 @@ public class Travel  {
 //		this.customerRepository = customerRepository;
 //	}
 
+//	@Autowired
+//	private AppUserRepository appUserRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(Travel.class, args);
 	}
 
+//	@Override
+//	public void run(String... args) throws Exception {
+//		//this.appUserRepository.findAll().forEach(System.out::println);
+//		System.out.println(this.appUserRepository.findByUsername("misterX").orElseThrow());
+//
+//	}
 
-    // var fly=flyRepository.findById(15L).get();
+
+	// var fly=flyRepository.findById(15L).get();
 	// var hotel=hotelRepository.findById(7L).get();
     // var ticket=ticketRepository.findById(UUID.fromString("32345678-1234-5678-4234-567812345678")).get();
 	// var reservacion=reservacionRepository.findById(UUID.fromString("12345678-1234-5678-1234-567812345678")).get();

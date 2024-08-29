@@ -1,13 +1,11 @@
-package com.example.demo.dominan.repository;
+package com.example.demo.dominan.repository.jpa;
 
-import com.example.demo.dominan.entity.Hotel;
+import com.example.demo.dominan.entities.jpa.Hotel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel,Long> {

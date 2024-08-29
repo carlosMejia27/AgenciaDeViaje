@@ -1,6 +1,6 @@
 package com.example.demo.infraestructuras.helpers;
 
-import com.example.demo.dominan.repository.CustomerRepository;
+import com.example.demo.dominan.repository.jpa.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

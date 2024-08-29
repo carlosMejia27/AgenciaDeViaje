@@ -2,8 +2,11 @@ package com.example.demo.infraestructuras.service;
 
 import com.example.demo.api.models.request.TourResquest;
 import com.example.demo.api.models.response.TourResponse;
-import com.example.demo.dominan.entity.*;
-import com.example.demo.dominan.repository.*;
+import com.example.demo.dominan.entities.jpa.*;
+import com.example.demo.dominan.repository.jpa.CustomerRepository;
+import com.example.demo.dominan.repository.jpa.FlyRepository;
+import com.example.demo.dominan.repository.jpa.HotelRepository;
+import com.example.demo.dominan.repository.jpa.TourRepository;
 import com.example.demo.infraestructuras.abstract_service.ITourService;
 import com.example.demo.infraestructuras.helpers.BlackListHelpers;
 import com.example.demo.infraestructuras.helpers.CustomerHelper;
@@ -84,8 +87,9 @@ public class TourService implements ITourService {
 
     @Override
     public void delete(Long id) {
-      var tourToDelete=this.tourRepository.findById(id).orElseThrow();
-      this.tourRepository.delete(tourToDelete);
+      var tourToDelete=this.tourRepository.findById(id).orElseThrow(() -> new IdNotFoundException(Tables.tour.name()));
+        log.info("*************tour id no existe *************** [{}]",tourToDelete);
+        this.tourRepository.delete(tourToDelete);
     }
 
 

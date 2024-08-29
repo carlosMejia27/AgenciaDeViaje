@@ -1,7 +1,7 @@
 package com.example.demo.infraestructuras.service;
 
-import com.example.demo.dominan.entity.Customer;
-import com.example.demo.dominan.repository.CustomerRepository;
+import com.example.demo.dominan.entities.jpa.Customer;
+import com.example.demo.dominan.repository.jpa.CustomerRepository;
 import com.example.demo.infraestructuras.abstract_service.ReportService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;

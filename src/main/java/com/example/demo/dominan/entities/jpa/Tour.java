@@ -1,5 +1,8 @@
-package com.example.demo.dominan.entity;
+package com.example.demo.dominan.entities.jpa;
 
+import com.example.demo.dominan.entities.jpa.Customer;
+import com.example.demo.dominan.entities.jpa.Reservation;
+import com.example.demo.dominan.entities.jpa.Ticket;
 import jakarta.persistence.*;
 import lombok.*;
 
