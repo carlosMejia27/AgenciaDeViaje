@@ -1,8 +1,8 @@
 package com.example.demo.infraestructuras.service;
 
 import com.example.demo.api.models.response.HotelResponde;
-import com.example.demo.dominan.entity.Hotel;
-import com.example.demo.dominan.repository.HotelRepository;
+import com.example.demo.dominan.entities.jpa.Hotel;
+import com.example.demo.dominan.repository.jpa.HotelRepository;
 import com.example.demo.infraestructuras.abstract_service.IhotelService;
 import com.example.demo.infraestructuras.helpers.CacheConstantes;
 import com.example.demo.util.enunm.SortType;

@@ -1,8 +1,8 @@
 package com.example.demo.infraestructuras.helpers;
 
-import com.example.demo.dominan.entity.*;
-import com.example.demo.dominan.repository.ReservacionRepository;
-import com.example.demo.dominan.repository.TicketRepository;
+import com.example.demo.dominan.entities.jpa.*;
+import com.example.demo.dominan.repository.jpa.ReservacionRepository;
+import com.example.demo.dominan.repository.jpa.TicketRepository;
 import com.example.demo.infraestructuras.service.ReservationsService;
 import com.example.demo.infraestructuras.service.TicketService;
 import com.example.demo.util.Best_Travel_Util;

@@ -1,22 +1,20 @@
 package com.example.demo.infraestructuras.service;
 
 import com.example.demo.api.models.response.FlyResponse;
-import com.example.demo.dominan.entity.Fly;
-import com.example.demo.dominan.repository.FlyRepository;
+import com.example.demo.dominan.entities.jpa.Fly;
+import com.example.demo.dominan.repository.jpa.FlyRepository;
 import com.example.demo.infraestructuras.abstract_service.IFlyService;
 import com.example.demo.infraestructuras.helpers.CacheConstantes;
 import com.example.demo.util.enunm.SortType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
 import java.util.Set;

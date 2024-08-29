@@ -1,6 +1,5 @@
-package com.example.demo.dominan.entity;
+package com.example.demo.dominan.entities.jpa;
 
-import com.example.demo.util.enunm.Aerolinia;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,25 +11,18 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-public class Fly {
+public class Hotel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double originLat ;
-    private Double originLng ;
-    private Double destinyLng ;
-    private Double destinyLat ;
+    @Column(length =50)
+    private String name;
+    @Column(length =50)
+    private String address;
+    private Integer rating;
     private BigDecimal price;
-
-    @Column(length =20)
-    private String originName;
-
-    @Column(length =20)
-    private String destinyName;
-
-    @Enumerated(EnumType.STRING)
-    private Aerolinia aeroLine;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
@@ -38,9 +30,7 @@ public class Fly {
             cascade = CascadeType.ALL, // te borra todo
             fetch = FetchType.EAGER, // carga los join todos datos completos lazy como una consulta sql noramal
             orphanRemoval = true, // si hay uno sin relacion te lo borra
-            mappedBy = "fly"
+            mappedBy = "hotel"
     )
-    private Set<Ticket> tickets;
-
-
+    private Set<Reservation> reservation;
 }

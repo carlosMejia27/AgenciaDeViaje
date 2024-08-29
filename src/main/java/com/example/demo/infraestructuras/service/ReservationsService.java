@@ -3,10 +3,10 @@ package com.example.demo.infraestructuras.service;
 import com.example.demo.api.models.request.ReservationRequest;
 import com.example.demo.api.models.response.HotelResponde;
 import com.example.demo.api.models.response.ReservationResponse;
-import com.example.demo.dominan.entity.Reservation;
-import com.example.demo.dominan.repository.CustomerRepository;
-import com.example.demo.dominan.repository.HotelRepository;
-import com.example.demo.dominan.repository.ReservacionRepository;
+import com.example.demo.dominan.entities.jpa.Reservation;
+import com.example.demo.dominan.repository.jpa.CustomerRepository;
+import com.example.demo.dominan.repository.jpa.HotelRepository;
+import com.example.demo.dominan.repository.jpa.ReservacionRepository;
 import com.example.demo.infraestructuras.abstract_service.IreservationsService;
 import com.example.demo.infraestructuras.helpers.ApiCurrenceConnectorHelper;
 import com.example.demo.infraestructuras.helpers.BlackListHelpers;
@@ -21,7 +21,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -74,7 +73,7 @@ public class ReservationsService implements IreservationsService {
 
     @Override
     public ReservationResponse read(UUID uuid) {
-        var ReservationFromBD = this.reservacionRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException("reservation"));
+        var ReservationFromBD = this.reservacionRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.reservation.name()));
         return this.ReservetionToResponse(ReservationFromBD);
     }
 
